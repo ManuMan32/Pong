@@ -22,7 +22,8 @@ const squareSize = 30;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
-let ballSpeed = 4;
+const ballSpeedInitial = 3;
+let ballSpeed = ballSpeedInitial;
 let ballPos = [150, 150];
 let playerSpeed = 6;
 let pointsPlayer1 = 0;
@@ -73,6 +74,7 @@ function gameFrame() {
   // Checks collision with players
   checkCollision(ball, [player1, player2], null, () => {
     ballDirection = getInverseDirection("y");
+    ballSpeed += 0.25;
   });
   // Check collision with goals
   checkCollision(ball, [collisionGoal1, collisionGoal2], null, target => {
@@ -164,6 +166,7 @@ function restartBall() {
   ballPos[0] = Math.floor(screenWidth / 2);
   ballPos[1] = Math.floor(screenHeight / 2);
   blockedBall = false;
+  ballSpeed = ballSpeedInitial;
   refreshUI();
 }
 
