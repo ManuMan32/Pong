@@ -1,0 +1,58 @@
+:root {
+  --back: #000;
+  --ui: #fff;
+  --square-size: 30px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.screen {
+  height: 100vh;
+  background-color: var(--back);
+  overflow: hidden;
+}
+
+.game {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ball {
+  position: absolute;
+  top: 200px;
+  left: 200px;
+  width: var(--square-size);
+  height: var(--square-size);
+  background-color: var(--ui);
+}
+
+.box-ui {
+  flex: 1;
+  border: 1px solid red;
+}
+
+.box-game {
+  display: grid;
+  grid-template: var(--square-size) 1fr var(--square-size) / 1fr;
+  grid-template-areas:
+    "player1"
+    "."
+    "player2";
+  flex: 10;
+  border: 1px solid red;
+}
+
+.player {
+  position: relative;
+  width: calc(var(--square-size) * 3);
+  height: var(--square-size);
+  background-color: var(--ui);
+}
+.player1 { grid-area: player1; }
+.player2 { grid-area: player2; }
