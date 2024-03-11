@@ -54,5 +54,11 @@
   height: var(--square-size);
   background-color: var(--ui);
 }
-.player1 { grid-area: player1; }
-.player2 { grid-area: player2; }
+.upside { grid-area: player1; }
+.downside { grid-area: player2; }
+.collision-goal1, .collision-goal2 {
+  position: relative;
+  top: calc(var(--square-size) * -1 / 1.3);
+  width: 100%;
+  height: calc(var(--square-size) / 2);
+}

@@ -16,6 +16,8 @@ const BALL_DIRECTIONS = {
 const ball = document.querySelector(".ball");
 const player1 = document.querySelector(".player1");
 const player2 = document.querySelector(".player2");
+const collisionGoal1 = document.querySelector(".collision-goal1");
+const collisionGoal2 = document.querySelector(".collision-goal2");
 const squareSize = 30;
 // Values/Positions
 let blockedBall = true;
@@ -44,7 +46,7 @@ document.addEventListener("keydown", e => {
       case "ArrowRight": p1pos += playerSpeed; break;
       case "a": p2pos -= playerSpeed; break;
       case "d": p2pos += playerSpeed; break;
-      case " ": blockedBall = false; break;
+      case " ": restartBall(); break;
     }
     pressedKeys[e.key] = true;
   }
@@ -72,6 +74,12 @@ function gameFrame() {
   checkCollision(ball, [player1, player2], null, () => {
     ballDirection = getInverseDirection("y");
   });
+  // Check collision with goals
+  checkCollision(ball, [collisionGoal1, collisionGoal2], null, target => {
+    if (target == collisionGoal1) pointsPlayer2++;
+    else if (target == collisionGoal2) pointsPlayer1++;
+    restartBall();
+  })
   // Players
   // Update position
   player1.style.left = `${p1pos}px`;
@@ -149,4 +157,11 @@ function getInverseDirection(axis) {
     }
     default: return null;
   }
+}
+
+// Restarts the ball position
+function restartBall() {
+  ballPos[0] = Math.floor(screenWidth / 2);
+  ballPos[1] = Math.floor(screenHeight / 2);
+  blockedBall = false;
 }
