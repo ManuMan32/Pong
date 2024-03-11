@@ -164,4 +164,13 @@ function restartBall() {
   ballPos[0] = Math.floor(screenWidth / 2);
   ballPos[1] = Math.floor(screenHeight / 2);
   blockedBall = false;
+  refreshUI();
+}
+
+// Refreshs the UI
+function refreshUI() {
+  const points1 = document.getElementById("points-p1");
+  const points2 = document.getElementById("points-p2");
+  points1.innerHTML = pointsPlayer1;
+  points2.innerHTML = pointsPlayer2;
 }

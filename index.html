@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="screen">
     <div class="game">
       <div class="ball"></div>
-      <div class="box-ui"></div>
+      <div class="box-ui">
+        <span>P1: <span id="points-p1">0</span></span>
+        <span id="time">00:00</span>
+        <span>P2: <span id="points-p2">0</span></span>
+      </div>
       <div class="box-game">
         <div class="upside">
           <div class="player player1"></div>
