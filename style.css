@@ -1,5 +1,6 @@
 :root {
   --back: #000;
+  --back-title: #000a;
   --ui: #fff;
   --square-size: 30px;
 }
@@ -9,12 +10,65 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Kode Mono", monospace;
+  color: var(--ui);
 }
 
 .screen {
+  position: relative;
   height: 100vh;
   background-color: var(--back);
   overflow: hidden;
+}
+
+.title-screen {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--back-title);
+  z-index: 9999;
+}
+
+.title-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 80%;
+  height: 80%;
+  background-color: var(--back);
+  border: 2px solid var(--ui);
+}
+
+.title-box div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-box-buttons {
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.title {
+  flex-basis: 200px;
+  font-size: 50px;
+}
+
+.title-button {
+  flex-basis: 100px;
+  background-color: var(--ui);
+  color: var(--back);
+  width: 80%;
+}
+
+.title-credits {
+  flex-basis: 100px;
 }
 
 .game {
@@ -41,7 +95,6 @@
 }
 .box-ui > span {
   flex: 1;
-  color: var(--ui);
   text-align: center;
   font-size: 30px;
 }
