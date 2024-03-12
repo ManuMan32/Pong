@@ -24,6 +24,7 @@ const buttonRecords = document.querySelector(".title-button-records");
 const countdownElement = document.querySelector(".countdown");
 const countdownSpan = document.querySelector(".countdown-number");
 const squareSize = 30;
+const playerWidth = squareSize * 3;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
@@ -33,8 +34,10 @@ let ballPos = [150, -150];
 let playerSpeed = 6;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
-let p1pos = 0; // X axis
-let p2pos = 0; // X axis
+const playerPositions = {
+  'p1pos': 0,
+  'p2pos': 0
+}
 let countdownNumber = 4;
 let screenWidth = window.innerWidth;
 let screenHeight = window.innerHeight;
@@ -49,10 +52,10 @@ let pressedKeys = {};
 document.addEventListener("keydown", e => {
   if (pressedKeys[e.key] == undefined) {
     switch (e.key) {
-      case "ArrowLeft": p1pos -= playerSpeed; break;
-      case "ArrowRight": p1pos += playerSpeed; break;
-      case "a": p2pos -= playerSpeed; break;
-      case "d": p2pos += playerSpeed; break;
+      case "ArrowLeft": movePlayer('p1pos', -(playerSpeed)); break;
+      case "ArrowRight": movePlayer('p1pos', playerSpeed); break;
+      case "a": movePlayer('p2pos', -(playerSpeed)); break;
+      case "d": movePlayer('p2pos', playerSpeed); break;
     }
     pressedKeys[e.key] = true;
   }
@@ -97,17 +100,24 @@ function gameFrame() {
   })
   // Players
   // Update position
-  player1.style.left = `${p1pos}px`;
-  player2.style.left = `${p2pos}px`;
+  player1.style.left = `${playerPositions.p1pos}px`;
+  player2.style.left = `${playerPositions.p2pos}px`;
   // Continuous movement
-  if ("ArrowLeft" in pressedKeys) p1pos -= playerSpeed;
-  if ("ArrowRight" in pressedKeys) p1pos += playerSpeed;
-  if ("a" in pressedKeys) p2pos -= playerSpeed;
-  if ("d" in pressedKeys) p2pos += playerSpeed;
+  if ("ArrowLeft" in pressedKeys) movePlayer('p1pos', -(playerSpeed));
+  if ("ArrowRight" in pressedKeys) movePlayer('p1pos', playerSpeed);
+  if ("a" in pressedKeys) movePlayer('p2pos', -(playerSpeed));
+  if ("d" in pressedKeys) movePlayer('p2pos', playerSpeed);
   // Next frame
   requestAnimationFrame(gameFrame);
 }
 requestAnimationFrame(gameFrame);
+
+// Moves the player position
+function movePlayer(reference, number) {
+  playerPositions[reference] += number;
+  if (playerPositions[reference] < 0) playerPositions[reference] = 0;
+  if (playerPositions[reference] > (screenWidth - playerWidth)) playerPositions[reference] = (screenWidth - playerWidth);
+}
 
 // Moves the ball position depending on its direction
 function moveBall() {
