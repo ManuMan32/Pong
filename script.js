@@ -18,18 +18,24 @@ const player1 = document.querySelector(".player1");
 const player2 = document.querySelector(".player2");
 const collisionGoal1 = document.querySelector(".collision-goal1");
 const collisionGoal2 = document.querySelector(".collision-goal2");
+const buttonPlay = document.querySelector(".title-button-play");
+const buttonOptions = document.querySelector(".title-button-options");
+const buttonRecords = document.querySelector(".title-button-records");
+const countdownElement = document.querySelector(".countdown");
+const countdownSpan = document.querySelector(".countdown-number");
 const squareSize = 30;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
 const ballSpeedInitial = 3;
 let ballSpeed = ballSpeedInitial;
-let ballPos = [150, 150];
+let ballPos = [150, -150];
 let playerSpeed = 6;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
 let p1pos = 0; // X axis
 let p2pos = 0; // X axis
+let countdownNumber = 4;
 let screenWidth = window.innerWidth;
 let screenHeight = window.innerHeight;
 window.addEventListener("resize", () => {
@@ -47,7 +53,6 @@ document.addEventListener("keydown", e => {
       case "ArrowRight": p1pos += playerSpeed; break;
       case "a": p2pos -= playerSpeed; break;
       case "d": p2pos += playerSpeed; break;
-      case " ": restartBall(); break;
     }
     pressedKeys[e.key] = true;
   }
@@ -55,6 +60,14 @@ document.addEventListener("keydown", e => {
 document.addEventListener("keyup", (e) => {
   delete pressedKeys[e.key];
 });
+
+// ---- Button Actions ----
+
+buttonPlay.addEventListener("click", () => {
+  const title = document.querySelector(".title-screen");
+  title.remove();
+  countdown();
+})
 
 // ---- Functions ----
 
@@ -176,4 +189,20 @@ function refreshUI() {
   const points2 = document.getElementById("points-p2");
   points1.innerHTML = pointsPlayer1;
   points2.innerHTML = pointsPlayer2;
+}
+
+// Makes the countdown before restarting the ball
+function countdown() {
+  if (countdownNumber == 4) {
+    countdownElement.classList.add("countdown-show");
+  }
+  countdownNumber--;
+  countdownSpan.innerHTML = countdownNumber;
+  if (countdownNumber <= 0) {
+    restartBall();
+    countdownElement.classList.remove("countdown-show");
+    countdownNumber = 4;
+  } else {
+    setTimeout(() => countdown(), 1000);
+  }
 }
