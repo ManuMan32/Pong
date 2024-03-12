@@ -98,7 +98,7 @@ function gameFrame() {
   // Players
   // Update position
   player1.style.left = `${p1pos}px`;
-  player2.style.left = `${p2pos}px`; 6
+  player2.style.left = `${p2pos}px`;
   // Continuous movement
   if ("ArrowLeft" in pressedKeys) p1pos -= playerSpeed;
   if ("ArrowRight" in pressedKeys) p1pos += playerSpeed;
