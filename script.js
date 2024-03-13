@@ -79,6 +79,16 @@ function gameFrame() {
   // Ball
   // Update position
   if (!blockedBall) {
+    // Check collision with goals
+    checkCollision(ball, [collisionGoal1, collisionGoal2], null, target => {
+      if (target == collisionGoal1) pointsPlayer2++;
+      else if (target == collisionGoal2) pointsPlayer1++;
+      ballPos = [200, -200];
+      blockedBall = true;
+      countdown();
+      refreshUI();
+    });
+    // Moves the ball
     moveBall();
     ball.style.left = `${ballPos[0]}px`;
     ball.style.top = `${ballPos[1]}px`;
@@ -92,12 +102,6 @@ function gameFrame() {
     ballDirection = getInverseDirection("y");
     ballSpeed += 0.25;
   });
-  // Check collision with goals
-  checkCollision(ball, [collisionGoal1, collisionGoal2], null, target => {
-    if (target == collisionGoal1) pointsPlayer2++;
-    else if (target == collisionGoal2) pointsPlayer1++;
-    restartBall();
-  })
   // Players
   // Update position
   player1.style.left = `${playerPositions.p1pos}px`;
