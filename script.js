@@ -28,10 +28,10 @@ const playerWidth = squareSize * 3;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
-const ballSpeedInitial = 3;
+const ballSpeedInitial = 4;
 let ballSpeed = ballSpeedInitial;
 let ballPos = [150, -150];
-let playerSpeed = 6;
+let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
 const playerPositions = {
@@ -39,12 +39,15 @@ const playerPositions = {
   'p2pos': 0
 }
 let countdownNumber = 4;
-let screenWidth = window.innerWidth;
-let screenHeight = window.innerHeight;
-window.addEventListener("resize", () => {
+let screenWidth, screenHeight;
+window.addEventListener("resize", setDimensions);
+setDimensions();
+function setDimensions() {
   screenWidth = window.innerWidth;
+  if (screenWidth > 900) screenWidth = 900;
   screenHeight = window.innerHeight;
-});
+  if (screenHeight > 900) screenHeight = 900;
+}
 
 // ---- CONTROLS ----
 let pressedKeys = {};
