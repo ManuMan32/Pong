@@ -94,6 +94,37 @@
   flex-basis: 100px;
 }
 
+.options-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+.option {
+  display: flex;
+  border: 2px solid var(--ui);
+  width: 90%;
+  height: 60px;
+}
+.option-title {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.option-inputs-box {
+  flex: 3;
+  display: flex;
+  justify-content: space-evenly !important;
+}
+.option-input {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 5px;
+  border: 2px solid var(--ui);
+  border-radius: 5px;
+}
+
 .game {
   position: relative;
   display: flex;

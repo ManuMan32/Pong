@@ -11,6 +11,13 @@ const BALL_DIRECTIONS = {
   BOTTOM_LEFT: 2,
   BOTTOM_RIGHT: 3
 }
+const THEMES = {
+  BLACK: 0,
+  WHITE: 1,
+  GREEN: 2,
+  RED: 3,
+  BLUE : 4
+}
 
 // References
 const ball = document.querySelector(".ball");
@@ -28,8 +35,7 @@ const playerWidth = squareSize * 3;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
-const ballSpeedInitial = 4;
-let ballSpeed = ballSpeedInitial;
+let ballSpeed = 4;
 let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
@@ -48,6 +54,10 @@ function setDimensions() {
   screenHeight = window.innerHeight;
   if (screenHeight > 900) screenHeight = 900;
 }
+// Option variables
+let optionGameTime = 4;
+let optionBallSpeedInitial = 4;
+let theme = THEMES.BLACK;
 
 // ---- CONTROLS ----
 let pressedKeys = {};
@@ -196,7 +206,7 @@ function restartBall() {
   ballPos[0] = Math.floor(screenWidth / 2);
   ballPos[1] = Math.floor(screenHeight / 2);
   blockedBall = false;
-  ballSpeed = ballSpeedInitial;
+  ballSpeed = optionBallSpeedInitial;
   refreshUI();
 }
 
