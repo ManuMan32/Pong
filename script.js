@@ -12,11 +12,11 @@ const BALL_DIRECTIONS = {
   BOTTOM_RIGHT: 3
 }
 const THEMES = {
-  BLACK: 0,
-  WHITE: 1,
-  GREEN: 2,
-  RED: 3,
-  BLUE : 4
+  BLACK: "B",
+  WHITE: "W",
+  GREEN: "G",
+  RED: "R",
+  BLUE: "BL"
 }
 
 // References
@@ -25,9 +25,6 @@ const player1 = document.querySelector(".player1");
 const player2 = document.querySelector(".player2");
 const collisionGoal1 = document.querySelector(".collision-goal1");
 const collisionGoal2 = document.querySelector(".collision-goal2");
-const buttonPlay = document.querySelector(".title-button-play");
-const buttonOptions = document.querySelector(".title-button-options");
-const buttonRecords = document.querySelector(".title-button-records");
 const countdownElement = document.querySelector(".countdown");
 const countdownSpan = document.querySelector(".countdown-number");
 const squareSize = 30;
@@ -54,10 +51,19 @@ function setDimensions() {
   screenHeight = window.innerHeight;
   if (screenHeight > 900) screenHeight = 900;
 }
-// Option variables
-let optionGameTime = 4;
-let optionBallSpeedInitial = 4;
-let theme = THEMES.BLACK;
+// Options variables
+const options = {
+  'gameTime': 4,
+  'initialBallSpeed': 4,
+  'theme': THEMES.BLACK,
+  'saveRecords': false
+}
+const optionsArray = [
+  ["Time per game", "gameTime", [2, 3, 4, 6, 8]],
+  ["Ball Speed", "initialBallSpeed", [3, 4, 6]],
+  ["Theme", "theme", [...Object.values(THEMES)]],
+  ["Save Records", "saveRecords", [true, false]]
+]
 
 // ---- CONTROLS ----
 let pressedKeys = {};
@@ -78,12 +84,6 @@ document.addEventListener("keyup", (e) => {
 });
 
 // ---- Button Actions ----
-
-buttonPlay.addEventListener("click", () => {
-  const title = document.querySelector(".title-screen");
-  title.remove();
-  countdown();
-})
 
 // ---- Functions ----
 
@@ -206,7 +206,7 @@ function restartBall() {
   ballPos[0] = Math.floor(screenWidth / 2);
   ballPos[1] = Math.floor(screenHeight / 2);
   blockedBall = false;
-  ballSpeed = optionBallSpeedInitial;
+  ballSpeed = options.initialBallSpeed;
   refreshUI();
 }
 
@@ -232,4 +232,82 @@ function countdown() {
   } else {
     setTimeout(() => countdown(), 1000);
   }
+}
+
+// Creates the title screen
+function createTitleScreen() {
+  const titleScreen = document.querySelector(".title-screen");
+  const titleBox = createElement("div", "title-box");
+  const title = createElement("div", "title", "Pong");
+  const titleBoxButtons = createElement("div", "title-box-buttons");
+  const buttonPlay = createElement("div", ["title-button", "title-button-play"], "Play");
+  buttonPlay.addEventListener("click", () => {
+    const title = document.querySelector(".title-screen");
+    title.remove();
+    countdown();
+  });
+  const buttonOptions = createElement("div", ["title-button", "title-button-options"], "Options");
+  buttonOptions.addEventListener("click", () => {
+    const titleOptions = document.querySelector(".title-box");
+    titleOptions.remove();
+    createOptionsMenu();
+  });
+  const buttonRecords = createElement("div", ["title-button", "title-button-records"], "Records");
+  titleBoxButtons.appendChild(buttonPlay);
+  titleBoxButtons.appendChild(buttonOptions);
+  titleBoxButtons.appendChild(buttonRecords);
+  const titleCredits = createElement("div", "title-credits");
+  const titleCreditsSpan = createElement("span", undefined, "Game made by Manuel Crocco");
+  titleCredits.appendChild(titleCreditsSpan);
+  titleBox.appendChild(title);
+  titleBox.appendChild(titleBoxButtons);
+  titleBox.appendChild(titleCredits);
+  titleScreen.appendChild(titleBox);
+}
+createTitleScreen();
+
+// Creates the options menu
+function createOptionsMenu() {
+  const titleScreen = document.querySelector(".title-screen");
+  const titleBox = createElement("div", "title-box");
+  const xButton = createElement("div", "x-button", "<-");
+  xButton.addEventListener("click", () => {
+    const optionsTitleBox = document.querySelector(".title-box");
+    optionsTitleBox.remove();
+    createTitleScreen();
+  });
+  const title = createElement("div", "title", "Options");
+  const optionsBox = createElement("div", "options-box");
+  optionsArray.forEach(optionsSet => {
+    const opTitle = optionsSet[0];
+    const opKey = optionsSet[1];
+    const opOptions = optionsSet[2];
+    const optionElement = createElement("div", "option");
+    const optionElementTitle = createElement("div", "option-title", opTitle);
+    const optionInputBox = createElement("div", "option-inputs-box");
+    opOptions.forEach(e => {
+      const input = createElement("div", "option-input", e.toString());
+      optionInputBox.appendChild(input);
+    });
+    optionElement.appendChild(optionElementTitle);
+    optionElement.appendChild(optionInputBox);
+    optionsBox.appendChild(optionElement);
+  });
+  titleBox.appendChild(xButton);
+  titleBox.appendChild(title);
+  titleBox.appendChild(optionsBox);
+  titleScreen.append(titleBox);
+}
+
+// Creates a DOM Element
+function createElement(type, elementClass = undefined, text = undefined) {
+  const e = document.createElement(type);
+  if (elementClass) {
+    if (typeof elementClass == "string") e.classList.add(elementClass);
+    else if (typeof elementClass == "object") {
+      elementClass.forEach(cl => e.classList.add(cl));
+    } else console.log("error carajo")
+  }
+  if (text) e.innerHTML = text;
+  return e;
 }
