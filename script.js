@@ -39,7 +39,7 @@ let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
-let time = 60 * 4;
+let time = 15;
 const playerPositions = {
   'p1pos': 0,
   'p2pos': 0
@@ -241,8 +241,37 @@ function countdown() {
 // Creates the timer
 function timer() {
   clock = setInterval(() => {
-    time--;
-    updateClock();
+    if (time <= 0) {
+      ballPos = [200, -200];
+      blockedBall = true;
+      clearInterval(clock);
+      countdownElement.classList.add("countdown-show");
+      countdownSpan.innerHTML = "Time is out!!";
+      setTimeout(() => {
+        const resultsWindow = createElement("div", "title-screen");
+        const resultsBox = createElement("div", "title-box");
+        const result = createElement("div", "title", `${pointsPlayer1} - ${pointsPlayer2}`);
+        const winner = createElement("div", "title", (pointsPlayer1 == pointsPlayer2) ? "It's a tie!"
+          : "The winner is " + ((pointsPlayer1 > pointsPlayer2) ? "P1" : "P2") + "!");
+        const goToTitleScreenButton = createElement("div", "title-button", "Go to Title Screen");
+        goToTitleScreenButton.addEventListener("click", () => {
+          const resultsTitleBox = document.querySelector(".title-box");
+          resultsTitleBox.remove();
+          createTitleScreen();
+        })
+        resultsBox.appendChild(result);
+        resultsBox.appendChild(winner);
+        resultsBox.appendChild(goToTitleScreenButton);
+        resultsWindow.appendChild(resultsBox);
+        document.querySelector(".screen").appendChild(resultsWindow);
+        resetValues();
+        refreshUI();
+        updateClock();
+      }, 1500);
+    } else if (!blockedBall) {
+      time--;
+      updateClock();
+    }
   }, 1000);
 }
 function updateClock() {
@@ -252,6 +281,13 @@ function updateClock() {
   if (seconds < 10) seconds = "0" + seconds;
   const timerElement = document.getElementById("time");
   timerElement.innerHTML = `${minutes}:${seconds}`;
+}
+
+// Resets the game values
+function resetValues() {
+  pointsPlayer1 = 0;
+  pointsPlayer2 = 0;
+  time = options.gameTime * 60;
 }
 
 // Creates the title screen
