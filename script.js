@@ -39,7 +39,7 @@ let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
-let time = 60 * 4;
+let time = 5;
 const playerPositions = {
   'p1pos': 0,
   'p2pos': 0
@@ -54,6 +54,8 @@ function setDimensions() {
   screenHeight = window.innerHeight;
   if (screenHeight > 900) screenHeight = 900;
 }
+let records = [];
+let gamesPlayed = 0;
 // Options variables
 let options = {
   'gameTime': 4,
@@ -265,6 +267,7 @@ function timer() {
         resultsBox.appendChild(goToTitleScreenButton);
         resultsWindow.appendChild(resultsBox);
         document.querySelector(".screen").appendChild(resultsWindow);
+        saveRecord();
         resetValues();
         refreshUI();
         updateClock();
@@ -291,6 +294,12 @@ function resetValues() {
   time = options.gameTime * 60;
 }
 
+// Saves the current game to a record
+function saveRecord() {
+  gamesPlayed++;
+  records.push([gamesPlayed, `${pointsPlayer1} : ${pointsPlayer2}`, ((pointsPlayer1 > pointsPlayer2) ? "P1" : "P2") + " won"]);
+}
+
 // Creates the title screen
 function createTitleScreen() {
   const titleScreen = document.querySelector(".title-screen");
@@ -309,7 +318,12 @@ function createTitleScreen() {
     titleOptions.remove();
     createOptionsMenu();
   });
-  const buttonRecords = createElement("div", ["title-button", "title-button-records"], "Records");
+  const buttonRecords = createElement("div", ["title-button", "title-button-records"], "Records")
+  buttonRecords.addEventListener("click", () => {
+    const titleOptions = document.querySelector(".title-box");
+    titleOptions.remove();
+    createRecordsMenu();
+  });
   titleBoxButtons.appendChild(buttonPlay);
   titleBoxButtons.appendChild(buttonOptions);
   titleBoxButtons.appendChild(buttonRecords);
@@ -365,6 +379,31 @@ function createOptionsMenu() {
   titleBox.appendChild(title);
   titleBox.appendChild(optionsBox);
   titleScreen.append(titleBox);
+}
+
+// Creates the records menu
+function createRecordsMenu() {
+  const titleScreen = document.querySelector(".title-screen");
+  const titleBox = createElement("div", "title-box");
+  const recordsBox = createElement("div", "records-box");
+  const xButton = createElement("div", "x-button", "<-");
+  xButton.addEventListener("click", () => {
+    const recordsTitleBox = document.querySelector(".title-box");
+    recordsTitleBox.remove();
+    createTitleScreen();
+  });
+  records.forEach(record => {
+    const r = createElement("div", "record");
+    const zeros = 4 - record[0].toString().length;
+    const zerosString = "0".repeat(zeros);
+    r.appendChild(createElement("span", undefined, `Game ${zerosString}${record[0]}`));
+    r.appendChild(createElement("span", undefined, record[1]));
+    r.appendChild(createElement("span", undefined, record[2]));
+    recordsBox.appendChild(r);
+  });
+  titleBox.appendChild(xButton);
+  titleBox.appendChild(recordsBox);
+  titleScreen.appendChild(titleBox);
 }
 
 // Creates a DOM Element

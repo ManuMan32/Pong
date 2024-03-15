@@ -105,6 +105,7 @@
   border: 2px solid var(--ui);
   user-select: none;
   font-size: 24px;
+  background-color: var(--back);
 }
 
 .options-box {
@@ -147,6 +148,28 @@
 .option-checked {
   background-color: #0cf4;
 }
+
+.records-box {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  border: 2px solid var(--ui);
+  overflow: auto;
+}
+.record {
+  display: flex;
+  justify-content: space-evenly !important;
+  width: 100%;
+  min-height: 50px;
+  height: 50px;
+  border: 4px solid var(--back);
+  border-bottom: none;
+  background-color: var(--ui);
+}
+.record > span { color: var(--back); }
 
 .game {
   position: relative;
