@@ -20,6 +20,7 @@ const THEMES = {
 }
 
 // References
+const root = document.documentElement;
 const ball = document.querySelector(".ball");
 const player1 = document.querySelector(".player1");
 const player2 = document.querySelector(".player2");
@@ -60,7 +61,7 @@ const options = {
 }
 const optionsArray = [
   ["Time per game", "gameTime", [2, 3, 4, 6, 8]],
-  ["Ball Speed", "initialBallSpeed", [3, 4, 6]],
+  ["Ball Speed", "initialBallSpeed", [3, 4, 5]],
   ["Theme", "theme", [...Object.values(THEMES)]],
   ["Save Records", "saveRecords", [true, false]]
 ]
@@ -294,6 +295,9 @@ function createOptionsMenu() {
         const row = document.getElementById(`optionRow${i}`);
         row.childNodes.forEach(el => el.classList.toggle("option-checked", false));
         input.classList.toggle("option-checked", true);
+        for (let t in THEMES) {
+          if (e == THEMES[t]) changeTheme(THEMES[t]);
+        }
       })
       optionInputBox.appendChild(input);
     });
@@ -318,4 +322,41 @@ function createElement(type, elementClass = undefined, text = undefined) {
   }
   if (text) e.innerHTML = text;
   return e;
+}
+
+// Changes the game theme
+function changeTheme(newTheme) {
+  switch (newTheme) {
+    case THEMES.BLACK:
+    default:
+      root.style.setProperty('--back', '#000');
+      root.style.setProperty('--back-title', '#000a');
+      root.style.setProperty('--ui', '#fff');
+      root.style.setProperty('--ui-hover', '#ccc');
+      break;
+    case THEMES.WHITE:
+      root.style.setProperty('--back', '#fff');
+      root.style.setProperty('--back-title', '#fffa');
+      root.style.setProperty('--ui', '#000');
+      root.style.setProperty('--ui-hover', '#444');
+      break;
+    case THEMES.GREEN:
+      root.style.setProperty('--back', '#0f0');
+      root.style.setProperty('--back-title', '#0f0a');
+      root.style.setProperty('--ui', '#000');
+      root.style.setProperty('--ui-hover', '#040');
+      break;
+    case THEMES.RED:
+      root.style.setProperty('--back', '#f00');
+      root.style.setProperty('--back-title', '#f00a');
+      root.style.setProperty('--ui', '#000');
+      root.style.setProperty('--ui-hover', '#400');
+      break;
+    case THEMES.BLUE:
+      root.style.setProperty('--back', '#00f');
+      root.style.setProperty('--back-title', '#00fa');
+      root.style.setProperty('--ui', '#fff');
+      root.style.setProperty('--ui-hover', '#ccf');
+      break;
+  }
 }
