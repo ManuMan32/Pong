@@ -105,11 +105,6 @@
   user-select: none;
   font-size: 24px;
 }
-.x-button:hover {
-  cursor: pointer;
-  border-color: var(--ui-hover);
-  color: var(--ui-hover);
-}
 
 .options-box {
   display: flex;
@@ -140,6 +135,15 @@
   padding: 0 5px;
   border: 2px solid var(--ui);
   border-radius: 5px;
+  user-select: none;
+}
+.option-input:hover, .x-button:hover {
+  cursor: pointer;
+  border-color: var(--ui-hover);
+  color: var(--ui-hover);
+}
+.option-checked {
+  background-color: #0cf4;
 }
 
 .game {

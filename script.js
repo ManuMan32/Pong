@@ -278,15 +278,23 @@ function createOptionsMenu() {
   });
   const title = createElement("div", "title", "Options");
   const optionsBox = createElement("div", "options-box");
-  optionsArray.forEach(optionsSet => {
+  optionsArray.forEach((optionsSet, i) => {
     const opTitle = optionsSet[0];
     const opKey = optionsSet[1];
     const opOptions = optionsSet[2];
     const optionElement = createElement("div", "option");
     const optionElementTitle = createElement("div", "option-title", opTitle);
     const optionInputBox = createElement("div", "option-inputs-box");
+    optionInputBox.id = `optionRow${i}`;
     opOptions.forEach(e => {
       const input = createElement("div", "option-input", e.toString());
+      if (options[opKey] == e) input.classList.add("option-checked");
+      input.addEventListener("click", () => {
+        options[opKey] = e;
+        const row = document.getElementById(`optionRow${i}`);
+        row.childNodes.forEach(el => el.classList.toggle("option-checked", false));
+        input.classList.toggle("option-checked", true);
+      })
       optionInputBox.appendChild(input);
     });
     optionElement.appendChild(optionElementTitle);
