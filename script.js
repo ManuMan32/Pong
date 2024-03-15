@@ -39,7 +39,7 @@ let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
-let time = 15;
+let time = 60 * 4;
 const playerPositions = {
   'p1pos': 0,
   'p2pos': 0
@@ -55,7 +55,7 @@ function setDimensions() {
   if (screenHeight > 900) screenHeight = 900;
 }
 // Options variables
-const options = {
+let options = {
   'gameTime': 4,
   'initialBallSpeed': 4,
   'theme': THEMES.BLACK,
@@ -245,6 +245,7 @@ function timer() {
       ballPos = [200, -200];
       blockedBall = true;
       clearInterval(clock);
+      clock = undefined;
       countdownElement.classList.add("countdown-show");
       countdownSpan.innerHTML = "Time is out!!";
       setTimeout(() => {
@@ -415,3 +416,16 @@ function changeTheme(newTheme) {
       break;
   }
 }
+
+// Save and load functions
+// Save
+window.addEventListener("beforeunload", () => {
+  const optionsJSON = JSON.stringify(options);
+  localStorage.setItem("PGoptions", optionsJSON);
+})
+// Load
+window.addEventListener("load", () => {
+  const optionsJSON = localStorage.getItem("PGoptions");
+  if (optionsJSON != null) options = JSON.parse(optionsJSON);
+  changeTheme(options.theme);
+})
