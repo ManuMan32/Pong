@@ -30,6 +30,7 @@ const countdownElement = document.querySelector(".countdown");
 const countdownSpan = document.querySelector(".countdown-number");
 const squareSize = 30;
 const playerWidth = squareSize * 3;
+let clock;
 // Values/Positions
 let blockedBall = true;
 let ballDirection = BALL_DIRECTIONS.TOP_LEFT;
@@ -38,6 +39,7 @@ let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
+let time = 60 * 4;
 const playerPositions = {
   'p1pos': 0,
   'p2pos': 0
@@ -228,11 +230,28 @@ function countdown() {
   countdownSpan.innerHTML = countdownNumber;
   if (countdownNumber <= 0) {
     restartBall();
+    if (clock == undefined) timer();
     countdownElement.classList.remove("countdown-show");
     countdownNumber = 4;
   } else {
     setTimeout(() => countdown(), 1000);
   }
+}
+
+// Creates the timer
+function timer() {
+  clock = setInterval(() => {
+    time--;
+    updateClock();
+  }, 1000);
+}
+function updateClock() {
+  let minutes, seconds;
+  minutes = "0" + Math.floor(time / 60);
+  seconds = (time - (minutes * 60));
+  if (seconds < 10) seconds = "0" + seconds;
+  const timerElement = document.getElementById("time");
+  timerElement.innerHTML = `${minutes}:${seconds}`;
 }
 
 // Creates the title screen

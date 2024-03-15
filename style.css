@@ -188,10 +188,15 @@
 }
 
 .player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: calc(var(--square-size) * 3);
   height: var(--square-size);
   background-color: var(--ui);
+  color: var(--back);
+  font-weight: bold;
 }
 .upside { grid-area: player1; }
 .downside { grid-area: player2; }
