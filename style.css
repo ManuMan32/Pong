@@ -141,6 +141,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .option-inputs-box {
   flex: 3;
@@ -245,4 +246,20 @@
   top: calc(var(--square-size) * -1 / 1.3);
   width: 100%;
   height: calc(var(--square-size) / 2);
+}
+
+@media only screen and (max-width: 500px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--back);
+  }
+  body::after {
+    content: "This game can't be played on this device.";
+    font-size: 30px;
+  }
+  .screen {
+    display: none;
+  }
 }

@@ -64,7 +64,7 @@ let options = {
   'saveRecords': true
 }
 const optionsArray = [
-  ["Time per game", "gameTime", [0.5, 1, 2, 3, 4]],
+  ["Time (minutes)", "gameTime", [0.5, 1, 2, 3, 4]],
   ["Ball Speed", "initialBallSpeed", [3, 4, 5]],
   ["Theme", "theme", [...Object.values(THEMES)]],
   ["Save Records", "saveRecords", [true, false]]
