@@ -312,7 +312,7 @@ function resetValues() {
 // Saves the current game to a record
 function saveRecord() {
   gamesPlayed++;
-  records.push([gamesPlayed, `${pointsPlayer1} : ${pointsPlayer2}`, ((pointsPlayer1 > pointsPlayer2) ? "P1" : "P2") + " won"]);
+  records.push([gamesPlayed, `${pointsPlayer1} : ${pointsPlayer2}`, (pointsPlayer1 == pointsPlayer2) ? "Tie" : ((pointsPlayer1 > pointsPlayer2) ? "P1" : "P2") + " won"]);
 }
 
 // Creates the title screen
@@ -476,10 +476,26 @@ function changeTheme(newTheme) {
 window.addEventListener("beforeunload", () => {
   const optionsJSON = JSON.stringify(options);
   localStorage.setItem("PGoptions", optionsJSON);
+  if (options.saveRecords) {
+    const recordsObj = records.reduce((obj, record, i) => {
+      obj[i.toString()] = record;
+      return obj;
+    }, {});
+    const recordsJSON = JSON.stringify(recordsObj);
+    localStorage.setItem("PGrecords", recordsJSON);
+    localStorage.setItem("PGgamesplayed", gamesPlayed);
+  }
 })
 // Load
 window.addEventListener("load", () => {
   const optionsJSON = localStorage.getItem("PGoptions");
   if (optionsJSON != null) options = JSON.parse(optionsJSON);
   changeTheme(options.theme);
-})
+  if (options.saveRecords) {
+    const recordsJSON = localStorage.getItem("PGrecords");
+    if (recordsJSON != null) {
+      records = Object.values(JSON.parse(recordsJSON));
+      gamesPlayed = localStorage.getItem("PGgamesplayed");
+    }
+  }
+});
