@@ -39,7 +39,7 @@ let ballPos = [150, -150];
 let playerSpeed = 6.5;
 let pointsPlayer1 = 0;
 let pointsPlayer2 = 0;
-let time = 5;
+let time = 60;
 const playerPositions = {
   'p1pos': 0,
   'p2pos': 0
@@ -58,13 +58,13 @@ let records = [];
 let gamesPlayed = 0;
 // Options variables
 let options = {
-  'gameTime': 4,
+  'gameTime': 2,
   'initialBallSpeed': 4,
   'theme': THEMES.BLACK,
   'saveRecords': false
 }
 const optionsArray = [
-  ["Time per game", "gameTime", [2, 3, 4, 6, 8]],
+  ["Time per game", "gameTime", [0.5, 1, 2, 3, 4]],
   ["Ball Speed", "initialBallSpeed", [3, 4, 5]],
   ["Theme", "theme", [...Object.values(THEMES)]],
   ["Save Records", "saveRecords", [true, false]]
@@ -87,8 +87,6 @@ document.addEventListener("keydown", e => {
 document.addEventListener("keyup", (e) => {
   delete pressedKeys[e.key];
 });
-
-// ---- Button Actions ----
 
 // ---- Functions ----
 
@@ -225,6 +223,7 @@ function refreshUI() {
 
 // Makes the countdown before restarting the ball
 function countdown() {
+  if (countdownSpan.innerHTML == "Time is out!!") return;
   if (countdownNumber == 4) {
     countdownElement.classList.add("countdown-show");
     let arrowToShow;
@@ -291,7 +290,8 @@ function timer() {
       time--;
       updateClock();
     }
-  }, 1000);
+  }, 990);
+  // It's 990 and not 1000 to avoid bugs where time is out when the ball hits a goal
 }
 function updateClock() {
   let minutes, seconds;
@@ -326,6 +326,8 @@ function createTitleScreen() {
     const title = document.querySelector(".title-screen");
     title.remove();
     countdown();
+    time = options.gameTime * 60;
+    updateClock();
   });
   const buttonOptions = createElement("div", ["title-button", "title-button-options"], "Options");
   buttonOptions.addEventListener("click", () => {
@@ -498,4 +500,6 @@ window.addEventListener("load", () => {
       gamesPlayed = localStorage.getItem("PGgamesplayed");
     }
   }
+  time = options.gameTime * 60;
+  updateClock();
 });
