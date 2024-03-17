@@ -61,7 +61,7 @@ let options = {
   'gameTime': 2,
   'initialBallSpeed': 4,
   'theme': THEMES.BLACK,
-  'saveRecords': false
+  'saveRecords': true
 }
 const optionsArray = [
   ["Time per game", "gameTime", [0.5, 1, 2, 3, 4]],
@@ -285,6 +285,7 @@ function timer() {
         resetValues();
         refreshUI();
         updateClock();
+        countdownSpan.innerHTML = "";
       }, 1500);
     } else if (!blockedBall) {
       time--;
