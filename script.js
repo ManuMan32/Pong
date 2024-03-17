@@ -227,11 +227,24 @@ function refreshUI() {
 function countdown() {
   if (countdownNumber == 4) {
     countdownElement.classList.add("countdown-show");
+    let arrowToShow;
+    switch (ballDirection) {
+      case BALL_DIRECTIONS.TOP_LEFT: default: arrowToShow = ".arrow-up-left"; break;
+      case BALL_DIRECTIONS.TOP_RIGHT: arrowToShow = ".arrow-up-right"; break;
+      case BALL_DIRECTIONS.BOTTOM_LEFT: arrowToShow = ".arrow-bottom-left"; break;
+      case BALL_DIRECTIONS.BOTTOM_RIGHT: arrowToShow = ".arrow-bottom-right"; break;
+    }
+    arrowToShow = document.querySelector(arrowToShow);
+    arrowToShow.classList.add("arrow-show");
   }
   countdownNumber--;
   countdownSpan.innerHTML = countdownNumber;
   if (countdownNumber <= 0) {
     restartBall();
+    const arrows = document.querySelectorAll(".arrow");
+    arrows.forEach(arrow => {
+      arrow.classList.toggle("arrow-show", false);
+    });
     if (clock == undefined) timer();
     countdownElement.classList.remove("countdown-show");
     countdownNumber = 4;
@@ -245,6 +258,8 @@ function timer() {
   clock = setInterval(() => {
     if (time <= 0) {
       ballPos = [200, -200];
+      ball.style.left = `${ballPos[0]}px`;
+      ball.style.top = `${ballPos[1]}px`;
       blockedBall = true;
       clearInterval(clock);
       clock = undefined;

@@ -24,7 +24,7 @@
   overflow: hidden;
 }
 
-.countdown {
+.countdown, .arrow {
   position: absolute;
   top: 0; left: 0;
   width: 100%;
@@ -36,7 +36,22 @@
   font-size: 60px;
   user-select: none;
 }
-.countdown-show { display: flex; }
+.countdown-show, .arrow-show { display: flex; }
+.arrow {
+  justify-content: flex-start;
+  z-index: 10;
+  padding: 0 45%;
+}
+.arrow-shape {
+  width: 30px;
+  height: 30px;
+  clip-path: polygon(0 0, 24% 83%, 37% 58%, 79% 100%, 100% 76%, 55% 41%, 85% 28%);
+  background-color: var(--ui);
+}
+.arrow-up-right > .arrow-shape { transform: rotate(90deg); }
+.arrow-bottom-right > .arrow-shape { transform: rotate(180deg); }
+.arrow-bottom-left > .arrow-shape { transform: rotate(270deg); }
+.arrow-up-right, .arrow-bottom-right { padding: 0 0 0 53%; }
 
 .title-screen {
   position: absolute;
